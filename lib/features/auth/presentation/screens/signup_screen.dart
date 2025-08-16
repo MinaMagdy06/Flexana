@@ -2,6 +2,8 @@ import 'package:flexana/core/theme/Colors.dart';
 import 'package:flexana/core/theme/Textstyle.dart';
 import 'package:flexana/core/utils/assets_data.dart';
 import 'package:flexana/core/widgets/custom_button.dart';
+import 'package:flexana/core/widgets/custom_slide_inemation.dart';
+import 'package:flexana/features/auth/presentation/screens/Otp1_screen.dart';
 import 'package:flexana/features/auth/presentation/widgets/Custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,34 +26,34 @@ class _LoginScreenState extends State<SignupScreen> {
       backgroundColor: AppColors.Primarycolor,
       resizeToAvoidBottomInset: true,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035), // ~13.w
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035),
         child: ListView(
           children: [
             SizedBox(height: 70.h),
             AssetsData.logo(context),
-            SizedBox(height: 70.h), // ~110.h
+            SizedBox(height: 70.h),
             Column(
               children: [
                 CustomTextFormField(
                   hintText: 'First name',
                   icon: 'assets/Icons/profile_icon.png',
                 ),
-                SizedBox(height: screenHeight * 0.025), // ~20.h
+                SizedBox(height: screenHeight * 0.025),
                 CustomTextFormField(
                   hintText: 'Last name',
                   icon: 'assets/Icons/profile_icon.png',
                 ),
-                SizedBox(height: screenHeight * 0.025), // ~20.
+                SizedBox(height: screenHeight * 0.025),
                 CustomTextFormField(
                   hintText: 'Phone number',
-                  icon: 'assets/Icons/phone_icon.png',
+                  icon: 'assets/Icon/Phonee_icon.png',
                 ),
-                SizedBox(height: screenHeight * 0.025), // ~20.
+                SizedBox(height: screenHeight * 0.025),
                 CustomTextFormField(
                   hintText: 'Email Address',
                   icon: 'assets/Icons/Email_icon.png',
                 ),
-                SizedBox(height: screenHeight * 0.025), // ~20.
+                SizedBox(height: screenHeight * 0.025),
                 CustomTextFormField(
                   hintText: 'Password',
                   icon: 'assets/Icons/password_icon.png',
@@ -61,7 +63,12 @@ class _LoginScreenState extends State<SignupScreen> {
 
             SizedBox(height: screenHeight * 0.05),
 
-            CustomImageButton(title: 'Confirm'),
+            CustomImageButton(
+              title: 'Confirm',
+              onTap: () {
+                Navigator.push(context, SlideRightRoute(page: Otp1Screen()));
+              },
+            ),
 
             Center(child: Text('Or', style: normalTextStyle())),
 
