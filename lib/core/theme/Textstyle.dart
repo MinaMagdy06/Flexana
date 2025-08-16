@@ -1,5 +1,5 @@
-import 'package:flexana/const/FontsFamily.dart';
-import 'package:flexana/const/colors.dart';
+import 'package:flexana/core/theme/Colors.dart';
+import 'package:flexana/core/theme/FontsFamily.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

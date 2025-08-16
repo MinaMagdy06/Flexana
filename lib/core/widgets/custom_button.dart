@@ -1,5 +1,5 @@
-import 'package:flexana/const/Textstyle.dart';
-import 'package:flexana/const/assets_data.dart';
+import 'package:flexana/core/theme/Textstyle.dart';
+import 'package:flexana/core/utils/assets_data.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,7 +17,7 @@ class CustomImageButton extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          AssetsData.CustomButtonn(),
+          AssetsData.customButton(context),
 
           Padding(
             padding: EdgeInsets.only(bottom: 9.h),

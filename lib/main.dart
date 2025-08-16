@@ -1,4 +1,5 @@
-import 'package:flexana/screens/login_screen.dart';
+import 'package:flexana/features/auth/presentation/screens/login_screen.dart';
+import 'package:flexana/features/auth/presentation/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +17,10 @@ class Flexana extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: MaterialApp(
-        routes: {LoginScreen.id: (context) => LoginScreen()},
+        routes: {
+          LoginScreen.id: (context) => LoginScreen(),
+          SignupScreen.id: (context) => SignupScreen(),
+        },
         initialRoute: LoginScreen.id,
         debugShowCheckedModeBanner: false,
       ),
