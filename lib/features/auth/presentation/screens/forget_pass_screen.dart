@@ -3,7 +3,6 @@ import 'package:flexana/core/theme/Textstyle.dart';
 import 'package:flexana/core/utils/assets_data.dart';
 import 'package:flexana/core/widgets/custom_button.dart';
 import 'package:flexana/core/widgets/custom_slide_inemation.dart';
-import 'package:flexana/features/auth/presentation/screens/Otp1_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/otp2_screen.dart';
 import 'package:flexana/features/auth/presentation/widgets/Custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ class _ForgetPassScreen extends State<ForgetPassScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: AppColors.Primarycolor,
       resizeToAvoidBottomInset: true,

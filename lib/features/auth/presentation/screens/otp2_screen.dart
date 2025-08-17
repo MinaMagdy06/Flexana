@@ -3,6 +3,7 @@ import 'package:flexana/core/theme/Textstyle.dart';
 import 'package:flexana/core/utils/assets_data.dart';
 import 'package:flexana/core/widgets/custom_button.dart';
 import 'package:flexana/core/widgets/custom_slide_inemation.dart';
+import 'package:flexana/features/auth/presentation/screens/change_pass_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/login_screen.dart';
 import 'package:flexana/features/auth/presentation/widgets/Custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -43,21 +44,12 @@ class _Otp2ScreenState extends State<Otp2Screen> {
               onTap: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  SlideRightRoute(page: LoginScreen()),
+                  SlideRightRoute(page: ChangePassScreen()),
                   (route) => false,
                 );
               },
             ),
-            CustomImageButton(
-              title: 'Send again',
-              onTap: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  SlideRightRoute(page: LoginScreen()),
-                  (route) => false,
-                );
-              },
-            ),
+            CustomImageButton(title: 'Send again', onTap: () {}),
             Center(child: Text('Or', style: normalTextStyle())),
 
             CustomImageButton(

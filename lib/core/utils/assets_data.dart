@@ -22,4 +22,15 @@ class AssetsData {
       height: screenHeight * 0.055, // 43.h تقريبًا
     );
   }
+
+  static Image customButton2(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Image.asset(
+      'assets/images/customButton2.png',
+      width: screenWidth * 0.50,
+      height: screenHeight * 0.060,
+    );
+  }
 }

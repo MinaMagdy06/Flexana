@@ -1,10 +1,8 @@
 import 'package:flexana/core/theme/Colors.dart';
 import 'package:flexana/core/widgets/custom_slide_inemation.dart';
-
 import 'package:flexana/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -32,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 2), () {
       Navigator.pushReplacement(context, SlideRightRoute(page: LoginScreen()));
     });
   }
