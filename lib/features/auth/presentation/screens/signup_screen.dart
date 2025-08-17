@@ -46,7 +46,7 @@ class _LoginScreenState extends State<SignupScreen> {
                 SizedBox(height: screenHeight * 0.025),
                 CustomTextFormField(
                   hintText: 'Phone number',
-                  icon: 'assets/Icon/Phonee_icon.png',
+                  icon: 'assets/Icons/Phonee_icon.png',
                 ),
                 SizedBox(height: screenHeight * 0.025),
                 CustomTextFormField(
