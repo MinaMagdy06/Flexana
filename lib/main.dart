@@ -1,6 +1,7 @@
 import 'package:flexana/core/theme/splash_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/Otp1_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/login_screen.dart';
+import 'package:flexana/features/auth/presentation/screens/forget_pass_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +24,7 @@ class Flexana extends StatelessWidget {
           LoginScreen.id: (context) => LoginScreen(),
           SignupScreen.id: (context) => SignupScreen(),
           Otp1Screen.id: (context) => Otp1Screen(),
+          ForgetPassScreen.id: (context) => ForgetPassScreen(),
         },
         home: SplashScreen(),
         debugShowCheckedModeBanner: false,

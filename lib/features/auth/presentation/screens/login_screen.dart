@@ -3,6 +3,7 @@ import 'package:flexana/core/theme/Textstyle.dart';
 import 'package:flexana/core/utils/assets_data.dart';
 import 'package:flexana/core/widgets/custom_button.dart';
 import 'package:flexana/core/widgets/custom_slide_inemation.dart';
+import 'package:flexana/features/auth/presentation/screens/forget_pass_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/signup_screen.dart';
 import 'package:flexana/features/auth/presentation/widgets/Custom_Switch.dart';
 import 'package:flexana/features/auth/presentation/widgets/Custom_textfield.dart';
@@ -26,19 +27,19 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: AppColors.Primarycolor,
       resizeToAvoidBottomInset: true,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035), // ~13.w
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035),
         child: ListView(
           children: [
-            SizedBox(height: screenHeight * 0.15), // ~120.h
+            SizedBox(height: screenHeight * 0.15),
             AssetsData.logo(context),
-            SizedBox(height: screenHeight * 0.14), // ~110.h
+            SizedBox(height: screenHeight * 0.14),
             Column(
               children: [
                 CustomTextFormField(
                   hintText: 'Phone Number',
                   icon: 'assets/Icons/profile_icon.png',
                 ),
-                SizedBox(height: screenHeight * 0.025), // ~20.h
+                SizedBox(height: screenHeight * 0.025),
 
                 CustomTextFormField(
                   hintText: 'Password',
@@ -47,18 +48,22 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
 
-            SizedBox(height: screenHeight * 0.07), // ~55.h
+            SizedBox(height: screenHeight * 0.07),
 
             CustomImageButton(title: 'Login'),
-            SizedBox(height: screenHeight * 0.008), // ~10.h
+            SizedBox(height: screenHeight * 0.008),
 
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  SlideRightRoute(page: ForgetPassScreen()),
+                );
+              },
               child: Text("forgot password", style: normalTextStyle()),
             ),
 
-            SizedBox(height: screenHeight * 0.06), // ~70.h
-
+            SizedBox(height: screenHeight * 0.06),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
