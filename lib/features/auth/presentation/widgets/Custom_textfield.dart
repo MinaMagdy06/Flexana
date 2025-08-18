@@ -5,13 +5,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final String icon;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final int? maxLength;
 
-  TextEditingController? controller; // ⬅️ جديد
-  CustomTextFormField({
+  const CustomTextFormField({
     super.key,
     required this.hintText,
     required this.icon,
-    this.controller, // ⬅️ جديد
+    this.controller,
+    this.keyboardType,
+    this.maxLength,
   });
 
   @override
@@ -43,10 +47,13 @@ class CustomTextFormField extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 23.w),
               child: TextFormField(
-                controller: controller, // ⬅️ ربط الكنترولر
+                controller: controller,
                 style: TextStyle(fontSize: 16.sp, color: Colors.black),
                 textAlignVertical: TextAlignVertical.center,
+                keyboardType: keyboardType,
+                maxLength: maxLength,
                 decoration: InputDecoration(
+                  counterText: "",
                   hintText: hintText,
                   hintStyle: formTextStyle(),
                   border: InputBorder.none,

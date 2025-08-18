@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flexana/core/theme/splash_screen.dart';
-import 'package:flexana/features/auth/presentation/screens/Otp1_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/login_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/forget_pass_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/signup_screen.dart';
@@ -27,7 +26,6 @@ class Flexana extends StatelessWidget {
         routes: {
           LoginScreen.id: (context) => LoginScreen(),
           SignupScreen.id: (context) => SignupScreen(),
-          Otp1Screen.id: (context) => Otp1Screen(),
           ForgetPassScreen.id: (context) => ForgetPassScreen(),
         },
         home: SplashScreen(),

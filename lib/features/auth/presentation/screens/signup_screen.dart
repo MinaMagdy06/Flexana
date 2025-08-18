@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flexana/core/theme/Colors.dart';
 import 'package:flexana/core/theme/Textstyle.dart';
 import 'package:flexana/core/utils/assets_data.dart';
@@ -68,6 +69,8 @@ class _SignupScreen extends State<SignupScreen> {
                   controller: _phoneController,
                   hintText: 'Phone number',
                   icon: 'assets/Icons/Phonee_icon.png',
+                  keyboardType: TextInputType.phone,
+                  maxLength: 11,
                 ),
                 SizedBox(height: screenHeight * 0.025),
                 CustomTextFormField(
@@ -89,6 +92,15 @@ class _SignupScreen extends State<SignupScreen> {
             CustomImageButton(
               title: 'Confirm',
               onTap: () async {
+                if (_phoneController.text.trim().length != 11) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Phone number must be 11 digits"),
+                    ),
+                  );
+                  return;
+                }
+
                 final authService = AuthService();
 
                 final error = await authService.signUp(
@@ -99,19 +111,53 @@ class _SignupScreen extends State<SignupScreen> {
                   password: _passwordController.text.trim(),
                 );
 
-                if (error == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Signup Success ✅, check your email"),
-                    ),
-                  );
-
-                  Navigator.push(context, SlideRightRoute(page: Otp1Screen()));
-                } else {
+                if (error != null) {
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(SnackBar(content: Text(error)));
+                  return;
                 }
+
+                // بعد ما الـ signup ينجح، ابعت OTP
+                await FirebaseAuth.instance.verifyPhoneNumber(
+                  phoneNumber:
+                      '+20${_phoneController.text.trim()}', // بكود الدولة
+                  verificationCompleted:
+                      (PhoneAuthCredential credential) async {
+                        try {
+                          await FirebaseAuth.instance.currentUser
+                              ?.linkWithCredential(credential);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Phone verified automatically ✅"),
+                            ),
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Auto-verification error: $e"),
+                            ),
+                          );
+                        }
+                      },
+                  verificationFailed: (FirebaseAuthException e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Verification failed: ${e.message}"),
+                      ),
+                    );
+                  },
+                  codeSent: (String verificationId, int? resendToken) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Otp1Screen(verificationId: verificationId),
+                      ),
+                    );
+                  },
+                  codeAutoRetrievalTimeout: (String verificationId) {},
+                );
               },
             ),
 

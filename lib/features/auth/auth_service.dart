@@ -6,6 +6,29 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  /// ✅ Map Firebase Errors to Friendly Messages
+  String _handleFirebaseAuthError(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'invalid-email':
+        return "The email address is not valid.";
+      case 'user-disabled':
+        return "This account has been disabled.";
+      case 'user-not-found':
+        return "No account found with this email.";
+      case 'wrong-password':
+        return "Incorrect password. Please try again.";
+      case 'email-already-in-use':
+        return "This email is already registered.";
+      case 'weak-password':
+        return "Password is too weak. Please use a stronger one.";
+      case 'email-not-verified':
+        return "Please verify your email before logging in.";
+      default:
+        return "An unexpected error occurred. Please try again.";
+    }
+  }
+
+  /// ✅ Signup with Email & Password + Save User in Firestore
   Future<String?> signUp({
     required String firstName,
     required String lastName,
@@ -37,60 +60,82 @@ class AuthService {
       // 4- Save user in Firestore
       await _firestore.collection("users").doc(user.uid).set(appUser.toMap());
 
-      return null;
+      return null; // success
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return _handleFirebaseAuthError(e);
     } catch (e) {
-      return e.toString();
+      return "Something went wrong. Please try again.";
     }
   }
 
-  /// ✅ Login with Email & Password
-  Future<User?> login({required String email, required String password}) async {
+  /// ✅ Login with Phone & Password
+  Future<String?> login({
+    required String phone,
+    required String password,
+  }) async {
     try {
+      // 🔍 Step 1: Get user by phone from Firestore
+      QuerySnapshot snapshot = await _firestore
+          .collection("users")
+          .where("phone", isEqualTo: phone)
+          .limit(1)
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        return "No account found with this phone number.";
+      }
+
+      // Get user data
+      var userData = snapshot.docs.first.data() as Map<String, dynamic>;
+      String email = userData["email"];
+
+      // 🔑 Step 2: Login using email & password
       UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
       if (!result.user!.emailVerified) {
-        throw FirebaseAuthException(
-          code: "email-not-verified",
-          message: "Please verify your email before login.",
-        );
+        return "Please verify your email before logging in.";
       }
 
-      return result.user;
+      return null; // success
     } on FirebaseAuthException catch (e) {
-      print("Login Error: ${e.code} - ${e.message}");
-      return null;
+      return _handleFirebaseAuthError(e);
     } catch (e) {
-      print("Login Error: $e");
-      return null;
+      return "Something went wrong. Please try again.";
     }
   }
 
-  /// ✅ Send OTP to Phone
-  Future<void> sendOtp({
+  /// ✅ Send OTP
+  Future<String?> sendOtp({
     required String phoneNumber,
     required Function(String) codeSent,
-    required Function(FirebaseAuthException) onError,
   }) async {
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await _auth.signInWithCredential(credential);
-      },
-      verificationFailed: onError,
-      codeSent: (String verificationId, int? resendToken) {
-        codeSent(verificationId);
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await _auth.signInWithCredential(credential);
+        },
+        verificationFailed: (e) {
+          throw e;
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          codeSent(verificationId);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return _handleFirebaseAuthError(e);
+    } catch (e) {
+      return "Failed to send OTP. Please try again.";
+    }
   }
 
   /// ✅ Verify OTP
-  Future<User?> verifyOtp({
+  Future<String?> verifyOtp({
     required String verificationId,
     required String smsCode,
   }) async {
@@ -99,11 +144,12 @@ class AuthService {
         verificationId: verificationId,
         smsCode: smsCode,
       );
-      UserCredential result = await _auth.signInWithCredential(credential);
-      return result.user;
-    } catch (e) {
-      print("OTP Error: $e");
+      await _auth.signInWithCredential(credential);
       return null;
+    } on FirebaseAuthException catch (e) {
+      return _handleFirebaseAuthError(e);
+    } catch (e) {
+      return "Invalid OTP. Please try again.";
     }
   }
 
