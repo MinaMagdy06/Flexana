@@ -1,12 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flexana/core/theme/splash_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/Otp1_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/login_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/forget_pass_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/signup_screen.dart';
+import 'package:flexana/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const Flexana());
 }
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1021918771595",
+    "project_id": "flexana-test",
+    "storage_bucket": "flexana-test.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021918771595:android:5adc99592b96a74b39578e",
+        "android_client_info": {
+          "package_name": "com.example.flexana"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRrLdKGeBvBIyENbZMV747FbxVo8E_f0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
