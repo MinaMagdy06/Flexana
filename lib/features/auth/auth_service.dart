@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flexana/features/auth/data/user_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// ✅ Signup with Email & Password + Save User in Firestore
-  Future<AppUser?> signUp({
+  Future<String?> signUp({
     required String firstName,
     required String lastName,
     required String email,
@@ -23,6 +21,11 @@ class AuthService {
       );
 
       User user = result.user!;
+
+      // 2- Send email verification
+      await user.sendEmailVerification();
+
+      // 3- Create User Model
       AppUser appUser = AppUser(
         uid: user.uid,
         firstName: firstName,
@@ -31,13 +34,14 @@ class AuthService {
         phone: phone,
       );
 
-      // 2- Save user in Firestore
+      // 4- Save user in Firestore
       await _firestore.collection("users").doc(user.uid).set(appUser.toMap());
 
-      return appUser;
-    } catch (e) {
-      print("Signup Error: $e");
       return null;
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    } catch (e) {
+      return e.toString();
     }
   }
 
@@ -48,7 +52,18 @@ class AuthService {
         email: email,
         password: password,
       );
+
+      if (!result.user!.emailVerified) {
+        throw FirebaseAuthException(
+          code: "email-not-verified",
+          message: "Please verify your email before login.",
+        );
+      }
+
       return result.user;
+    } on FirebaseAuthException catch (e) {
+      print("Login Error: ${e.code} - ${e.message}");
+      return null;
     } catch (e) {
       print("Login Error: $e");
       return null;

@@ -5,11 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final String icon;
-  const CustomTextFormField({
+
+  TextEditingController? controller; // ⬅️ جديد
+  CustomTextFormField({
     super.key,
     required this.hintText,
     required this.icon,
+    this.controller, // ⬅️ جديد
   });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,6 +43,7 @@ class CustomTextFormField extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 23.w),
               child: TextFormField(
+                controller: controller, // ⬅️ ربط الكنترولر
                 style: TextStyle(fontSize: 16.sp, color: Colors.black),
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
