@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flexana/core/theme/Colors.dart';
 import 'package:flexana/core/theme/Textstyle.dart';
 import 'package:flexana/core/utils/assets_data.dart';
 import 'package:flexana/core/widgets/custom_button.dart';
-import 'package:flexana/core/widgets/custom_slide_inemation.dart';
-import 'package:flexana/features/auth/auth_service.dart';
-import 'package:flexana/features/auth/presentation/screens/Otp1_screen.dart';
+import 'package:flexana/features/auth/Utils/auth_helpers.dart';
 import 'package:flexana/features/auth/presentation/widgets/Custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +22,8 @@ class _SignupScreen extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool isLoading = false; // ✅ عشان نتحكم في حالة الـ Loading
+
   @override
   void dispose() {
     _firstNameController.dispose();
@@ -33,6 +32,24 @@ class _SignupScreen extends State<SignupScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // المستخدم ما يقفلش الـ dialog
+      builder: (context) {
+        return Center(
+          child: CircularProgressIndicator(color: AppColors.Scondcolor),
+        );
+      },
+    );
+  }
+
+  void _hideLoadingDialog() {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context); // يقفل الـ dialog
+    }
   }
 
   @override
@@ -92,72 +109,31 @@ class _SignupScreen extends State<SignupScreen> {
             CustomImageButton(
               title: 'Confirm',
               onTap: () async {
-                if (_phoneController.text.trim().length != 11) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Phone number must be 11 digits"),
-                    ),
-                  );
-                  return;
-                }
-
-                final authService = AuthService();
-
-                final error = await authService.signUp(
-                  firstName: _firstNameController.text.trim(),
-                  lastName: _lastNameController.text.trim(),
-                  phone: _phoneController.text.trim(),
-                  email: _emailController.text.trim(),
-                  password: _passwordController.text.trim(),
+                final isValid = validateFields(
+                  context: context,
+                  firstNameController: _firstNameController,
+                  lastNameController: _lastNameController,
+                  phoneController: _phoneController,
+                  emailController: _emailController,
+                  passwordController: _passwordController,
                 );
 
-                if (error != null) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(error)));
-                  return;
-                }
+                if (!isValid) return;
 
-                // بعد ما الـ signup ينجح، ابعت OTP
-                await FirebaseAuth.instance.verifyPhoneNumber(
-                  phoneNumber:
-                      '+20${_phoneController.text.trim()}', // بكود الدولة
-                  verificationCompleted:
-                      (PhoneAuthCredential credential) async {
-                        try {
-                          await FirebaseAuth.instance.currentUser
-                              ?.linkWithCredential(credential);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Phone verified automatically ✅"),
-                            ),
-                          );
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Auto-verification error: $e"),
-                            ),
-                          );
-                        }
-                      },
-                  verificationFailed: (FirebaseAuthException e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Verification failed: ${e.message}"),
-                      ),
-                    );
-                  },
-                  codeSent: (String verificationId, int? resendToken) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            Otp1Screen(verificationId: verificationId),
-                      ),
-                    );
-                  },
-                  codeAutoRetrievalTimeout: (String verificationId) {},
+                // ✅ عرض اللودنج
+                _showLoadingDialog();
+
+                await handleSignUp(
+                  context: context,
+                  firstNameController: _firstNameController,
+                  lastNameController: _lastNameController,
+                  phoneController: _phoneController,
+                  emailController: _emailController,
+                  passwordController: _passwordController,
                 );
+
+                // ✅ إخفاء اللودنج
+                _hideLoadingDialog();
               },
             ),
 

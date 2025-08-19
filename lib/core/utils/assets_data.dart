@@ -7,8 +7,8 @@ class AssetsData {
 
     return Image.asset(
       'assets/images/logo.png',
-      width: screenWidth * 0.65, // 245.w تقريبًا
-      height: screenHeight * 0.20, // 168.h تقريبًا
+      width: screenWidth * 0.65,
+      height: screenHeight * 0.20,
     );
   }
 
@@ -18,8 +18,8 @@ class AssetsData {
 
     return Image.asset(
       'assets/images/customButton1.png',
-      width: screenWidth * 0.42, // 157.w تقريبًا
-      height: screenHeight * 0.055, // 43.h تقريبًا
+      width: screenWidth * 0.42,
+      height: screenHeight * 0.055,
     );
   }
 

@@ -144,12 +144,22 @@ class AuthService {
         verificationId: verificationId,
         smsCode: smsCode,
       );
-      await _auth.signInWithCredential(credential);
-      return null;
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      return null; // success
     } on FirebaseAuthException catch (e) {
-      return _handleFirebaseAuthError(e);
+      switch (e.code) {
+        case 'invalid-verification-code':
+          return "The OTP you entered is incorrect.";
+        case 'session-expired':
+          return "The OTP has expired. Please request a new one.";
+        case 'invalid-verification-id':
+          return "Something went wrong. Please try again.";
+        default:
+          return "Verification failed. Please try again.";
+      }
     } catch (e) {
-      return "Invalid OTP. Please try again.";
+      return "An unexpected error occurred. Please try again.";
     }
   }
 
