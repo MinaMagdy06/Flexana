@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flexana/core/theme/Colors.dart';
 import 'package:flexana/core/utils/assets_data.dart';
 import 'package:flexana/core/widgets/custom_button.dart';
@@ -52,14 +53,19 @@ class _Otp1Screen extends State<Otp1Screen> {
                 CustomImageButton(
                   title: 'Sign up',
                   onTap: () async {
-                    String? result = await AuthService().verifyOtp(
-                      verificationId: widget.verificationId,
-                      smsCode: _otpController.text.trim(),
-                    );
+                    try {
+                      final credential = PhoneAuthProvider.credential(
+                        verificationId: widget.verificationId,
+                        smsCode: _otpController.text.trim(),
+                      );
 
-                    if (result == null) {
+                      await FirebaseAuth.instance.currentUser
+                          ?.linkWithCredential(credential);
+
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Phone verified ✅")),
+                        const SnackBar(
+                          content: Text("Phone verified and linked ✅"),
+                        ),
                       );
 
                       Navigator.pushAndRemoveUntil(
@@ -67,10 +73,10 @@ class _Otp1Screen extends State<Otp1Screen> {
                         SlideRightRoute(page: LoginScreen()),
                         (route) => false,
                       );
-                    } else {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text(result)));
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("OTP verification failed: $e")),
+                      );
                     }
                   },
                 ),
