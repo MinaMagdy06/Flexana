@@ -3,7 +3,7 @@ import 'package:flexana/core/theme/Colors.dart';
 import 'package:flexana/core/utils/assets_data.dart';
 import 'package:flexana/core/widgets/custom_button.dart';
 import 'package:flexana/core/widgets/custom_slide_inemation.dart';
-import 'package:flexana/features/auth/auth_service.dart';
+
 import 'package:flexana/features/auth/presentation/screens/login_screen.dart';
 import 'package:flexana/features/auth/presentation/widgets/Custom_textfield.dart';
 import 'package:flutter/material.dart';

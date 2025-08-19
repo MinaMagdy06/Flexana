@@ -21,8 +21,6 @@ class AuthService {
         return "This email is already registered.";
       case 'weak-password':
         return "Password is too weak. Please use a stronger one.";
-      case 'email-not-verified':
-        return "Please verify your email before logging in.";
       default:
         return "An unexpected error occurred. Please try again.";
     }
@@ -45,10 +43,9 @@ class AuthService {
 
       User user = result.user!;
 
-      // 2- Send email verification
-      await user.sendEmailVerification();
+      // ❌ Cancelled email verification (we rely only on OTP)
 
-      // 3- Create User Model
+      // 2- Create User Model
       AppUser appUser = AppUser(
         uid: user.uid,
         firstName: firstName,
@@ -57,7 +54,7 @@ class AuthService {
         phone: phone,
       );
 
-      // 4- Save user in Firestore
+      // 3- Save user in Firestore
       await _firestore.collection("users").doc(user.uid).set(appUser.toMap());
 
       return null; // success
@@ -90,14 +87,9 @@ class AuthService {
       String email = userData["email"];
 
       // 🔑 Step 2: Login using email & password
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
 
-      if (!result.user!.emailVerified) {
-        return "Please verify your email before logging in.";
-      }
+      // ❌ Removed email verification check
 
       return null; // success
     } on FirebaseAuthException catch (e) {

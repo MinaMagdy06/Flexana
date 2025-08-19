@@ -3,6 +3,7 @@ import 'package:flexana/core/theme/Textstyle.dart';
 import 'package:flexana/core/utils/assets_data.dart';
 import 'package:flexana/core/widgets/custom_button.dart';
 import 'package:flexana/core/widgets/custom_slide_inemation.dart';
+import 'package:flexana/features/auth/auth_service.dart';
 import 'package:flexana/features/auth/presentation/screens/forget_pass_screen.dart';
 import 'package:flexana/features/auth/presentation/screens/signup_screen.dart';
 import 'package:flexana/features/auth/presentation/widgets/Custom_Switch.dart';
@@ -18,6 +19,45 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  final AuthService _authService = AuthService();
+  bool isLoading = false;
+
+  @override
+  void dispose() {
+    phoneController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _login() async {
+    setState(() => isLoading = true);
+
+    String? result = await _authService.login(
+      phone: phoneController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+
+    setState(() => isLoading = false);
+
+    if (result == null) {
+      // ✅ نجاح
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Login Successful ✅")));
+
+      // TODO: روح للـ Home Screen
+      // Navigator.pushReplacementNamed(context, HomeScreen.id);
+    } else {
+      // ❌ خطأ
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(result)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -33,15 +73,19 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: screenHeight * 0.15),
             AssetsData.logo(context),
             SizedBox(height: screenHeight * 0.14),
+
+            // ======= Input Fields =======
             Column(
               children: [
                 CustomTextFormField(
+                  controller: phoneController,
                   hintText: 'Phone Number',
                   icon: 'assets/Icons/profile_icon.png',
+                  keyboardType: TextInputType.phone,
                 ),
                 SizedBox(height: screenHeight * 0.025),
-
                 CustomTextFormField(
+                  controller: passwordController,
                   hintText: 'Password',
                   icon: 'assets/Icons/password_icon.png',
                 ),
@@ -50,35 +94,46 @@ class _LoginScreenState extends State<LoginScreen> {
 
             SizedBox(height: screenHeight * 0.07),
 
-            CustomImageButton(title: 'Login'),
+            // ======= Login Button =======
+            isLoading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.Scondcolor,
+                    ),
+                  )
+                : CustomImageButton(title: 'Login', onTap: _login),
+
             SizedBox(height: screenHeight * 0.008),
 
+            // ======= Forget Password =======
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  SlideRightRoute(page: ForgetPassScreen()),
+                  SlideRightRoute(page: const ForgetPassScreen()),
                 );
               },
               child: Text("forgot password", style: normalTextStyle()),
             ),
 
             SizedBox(height: screenHeight * 0.06),
+
+            // ======= Remember & Signup =======
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    CustomSwitch(),
+                    const CustomSwitch(),
                     Text("Remember me", style: normalTextStyle()),
                   ],
                 ),
-                SizedBox(width: screenWidth * 0.04), // ~14.w
+                SizedBox(width: screenWidth * 0.04),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      SlideRightRoute(page: SignupScreen()),
+                      SlideRightRoute(page: const SignupScreen()),
                     );
                   },
                   child: Text("Create Account", style: normalTextStyle()),
