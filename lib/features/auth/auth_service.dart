@@ -16,17 +16,16 @@ class AuthService {
       case 'user-not-found':
         return "No account found with this email.";
       case 'wrong-password':
-        return "Incorrect password. Please try again.";
+        return "The password you entered is incorrect.";
       case 'email-already-in-use':
         return "This email is already registered.";
       case 'weak-password':
         return "Password is too weak. Please use a stronger one.";
       default:
-        return "An unexpected error occurred. Please try again.";
+        return "Please check your enter";
     }
   }
 
-  /// ✅ Signup with Email & Password + Save User in Firestore
   Future<String?> signUp({
     required String firstName,
     required String lastName,
@@ -35,7 +34,6 @@ class AuthService {
     required String password,
   }) async {
     try {
-      // 1- Create user in FirebaseAuth
       UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -43,9 +41,6 @@ class AuthService {
 
       User user = result.user!;
 
-      // ❌ Cancelled email verification (we rely only on OTP)
-
-      // 2- Create User Model
       AppUser appUser = AppUser(
         uid: user.uid,
         firstName: firstName,
@@ -61,7 +56,7 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       return _handleFirebaseAuthError(e);
     } catch (e) {
-      return "Something went wrong. Please try again.";
+      return "$e";
     }
   }
 
@@ -71,7 +66,6 @@ class AuthService {
     required String password,
   }) async {
     try {
-      // 🔍 Step 1: Get user by phone from Firestore
       QuerySnapshot snapshot = await _firestore
           .collection("users")
           .where("phone", isEqualTo: phone)
@@ -82,20 +76,23 @@ class AuthService {
         return "No account found with this phone number.";
       }
 
-      // Get user data
       var userData = snapshot.docs.first.data() as Map<String, dynamic>;
       String email = userData["email"];
 
-      // 🔑 Step 2: Login using email & password
       await _auth.signInWithEmailAndPassword(email: email, password: password);
 
-      // ❌ Removed email verification check
-
-      return null; // success
+      return null; // ✅ Success
     } on FirebaseAuthException catch (e) {
-      return _handleFirebaseAuthError(e);
+      switch (e.code) {
+        case "wrong-password":
+          return " Wrong password. Please try again.";
+        case "network-request-failed":
+          return " No internet connection. Please check your network.";
+        default:
+          return " Please check your password and try again.";
+      }
     } catch (e) {
-      return "Something went wrong. Please try again.";
+      return " Unexpected error. Please check your internet connection or password.";
     }
   }
 

@@ -74,7 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
             AssetsData.logo(context),
             SizedBox(height: screenHeight * 0.14),
 
-            // ======= Input Fields =======
             Column(
               children: [
                 CustomTextFormField(
@@ -94,7 +93,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
             SizedBox(height: screenHeight * 0.07),
 
-            // ======= Login Button =======
             isLoading
                 ? Center(
                     child: CircularProgressIndicator(
@@ -105,7 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
             SizedBox(height: screenHeight * 0.008),
 
-            // ======= Forget Password =======
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -118,7 +115,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
             SizedBox(height: screenHeight * 0.06),
 
-            // ======= Remember & Signup =======
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
