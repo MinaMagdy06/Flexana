@@ -26,6 +26,7 @@ class AuthService {
     }
   }
 
+  /// ✅ Sign Up
   Future<String?> signUp({
     required String firstName,
     required String lastName,
@@ -49,7 +50,7 @@ class AuthService {
         phone: phone,
       );
 
-      // 3- Save user in Firestore
+      // Save user in Firestore
       await _firestore.collection("users").doc(user.uid).set(appUser.toMap());
 
       return null; // success
@@ -149,6 +150,58 @@ class AuthService {
       }
     } catch (e) {
       return "An unexpected error occurred. Please try again.";
+    }
+  }
+
+  /// ✅ Forget Password (Send OTP to Phone)
+  Future<String?> forgetPasswordWithOtp({
+    required String phone,
+    required Function(String) codeSent,
+  }) async {
+    try {
+      // 1- Check if phone exists in DB
+      QuerySnapshot snapshot = await _firestore
+          .collection("users")
+          .where("phone", isEqualTo: phone)
+          .limit(1)
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        return "No account found with this phone number.";
+      }
+
+      // 2- Send OTP to that phone
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phone,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await _auth.signInWithCredential(credential);
+        },
+        verificationFailed: (e) {
+          throw e;
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          codeSent(verificationId);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return _handleFirebaseAuthError(e);
+    } catch (e) {
+      return "Failed to send OTP for password reset. Try again.";
+    }
+  }
+
+  /// ✅ Change Password after OTP verification
+  Future<String?> changePassword({required String newPassword}) async {
+    try {
+      await _auth.currentUser?.updatePassword(newPassword);
+      return null; // success
+    } on FirebaseAuthException catch (e) {
+      return _handleFirebaseAuthError(e);
+    } catch (e) {
+      return "Failed to change password. Please try again.";
     }
   }
 
