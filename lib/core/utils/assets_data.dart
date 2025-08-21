@@ -12,6 +12,17 @@ class AssetsData {
     );
   }
 
+  static Image AppbarLogo(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Image.asset(
+      'assets/images/logo.png',
+      width: screenWidth * 0.20,
+      height: screenHeight * 0.1,
+    );
+  }
+
   static Image customButton(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;

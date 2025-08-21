@@ -32,7 +32,7 @@ class _Otp1Screen extends State<Otp1Screen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: AppColors.Primarycolor,
+      backgroundColor: AppColors.primarycolor,
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(

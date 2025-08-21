@@ -37,10 +37,10 @@ class _SignupScreen extends State<SignupScreen> {
   void _showLoadingDialog() {
     showDialog(
       context: context,
-      barrierDismissible: false, // المستخدم ما يقفلش الـ dialog
+      barrierDismissible: false,
       builder: (context) {
         return Center(
-          child: CircularProgressIndicator(color: AppColors.Scondcolor),
+          child: CircularProgressIndicator(color: AppColors.scondcolor),
         );
       },
     );
@@ -48,7 +48,7 @@ class _SignupScreen extends State<SignupScreen> {
 
   void _hideLoadingDialog() {
     if (Navigator.canPop(context)) {
-      Navigator.pop(context); // يقفل الـ dialog
+      Navigator.pop(context);
     }
   }
 
@@ -58,7 +58,7 @@ class _SignupScreen extends State<SignupScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: AppColors.Primarycolor,
+      backgroundColor: AppColors.primarycolor,
       resizeToAvoidBottomInset: true,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035),

@@ -91,7 +91,7 @@ class _Otp2ScreenState extends State<Otp2Screen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppColors.Primarycolor,
+      backgroundColor: AppColors.primarycolor,
       resizeToAvoidBottomInset: true,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035),

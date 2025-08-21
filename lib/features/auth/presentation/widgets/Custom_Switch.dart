@@ -12,9 +12,9 @@ class CustomSwitch extends StatelessWidget {
       child: Switch(
         value: true,
         onChanged: (v) {},
-        activeColor: AppColors.Primarycolor,
+        activeColor: AppColors.primarycolor,
         activeTrackColor: Colors.white,
-        inactiveThumbColor: AppColors.Primarycolor,
+        inactiveThumbColor: AppColors.primarycolor,
         inactiveTrackColor: Colors.white,
       ),
     );

@@ -80,7 +80,7 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: AppColors.Primarycolor,
+      backgroundColor: AppColors.primarycolor,
       resizeToAvoidBottomInset: true,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035),

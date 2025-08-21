@@ -97,6 +97,21 @@ class AuthService {
     }
   }
 
+  Future<AppUser?> getCurrentUser() async {
+    final user = _auth.currentUser;
+    if (user == null) return null;
+
+    // هات بياناته من Firestore
+    DocumentSnapshot doc = await _firestore
+        .collection("users")
+        .doc(user.uid)
+        .get();
+
+    if (!doc.exists) return null;
+
+    return AppUser.fromMap(doc.data() as Map<String, dynamic>);
+  }
+
   /// ✅ Send OTP
   Future<String?> sendOtp({
     required String phoneNumber,

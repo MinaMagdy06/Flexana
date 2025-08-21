@@ -8,6 +8,7 @@ import 'package:flexana/features/auth/presentation/screens/forget_pass_screen.da
 import 'package:flexana/features/auth/presentation/screens/signup_screen.dart';
 import 'package:flexana/features/auth/presentation/widgets/Custom_Switch.dart';
 import 'package:flexana/features/auth/presentation/widgets/Custom_textfield.dart';
+import 'package:flexana/features/location/presentation/Screens/location_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -43,15 +44,25 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => isLoading = false);
 
     if (result == null) {
-      // ✅ نجاح
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("Login Successful ✅")));
 
-      // TODO: روح للـ Home Screen
-      // Navigator.pushReplacementNamed(context, HomeScreen.id);
+      // هات اليوزر الحالي
+      final currentUser = await _authService.getCurrentUser();
+
+      if (currentUser != null) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          SlideRightRoute(page: LocationScreen(user: currentUser)),
+          (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("User data not found ")));
+      }
     } else {
-      // ❌ خطأ
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(result)));
@@ -64,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: AppColors.Primarycolor,
+      backgroundColor: AppColors.primarycolor,
       resizeToAvoidBottomInset: true,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035),
@@ -96,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
             isLoading
                 ? Center(
                     child: CircularProgressIndicator(
-                      color: AppColors.Scondcolor,
+                      color: AppColors.scondcolor,
                     ),
                   )
                 : CustomImageButton(title: 'Login', onTap: _login),
