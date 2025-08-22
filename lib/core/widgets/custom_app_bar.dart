@@ -1,19 +1,24 @@
 import 'package:flexana/core/theme/Colors.dart';
 import 'package:flexana/core/theme/Textstyle.dart';
 import 'package:flexana/core/utils/assets_data.dart';
-import 'package:flexana/features/location/presentation/Screens/location_screen.dart';
+import 'package:flexana/features/auth/data/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class customAppBar extends StatelessWidget {
-  const customAppBar({super.key, required this.widget});
+class CustomAppBar extends StatelessWidget {
+  final AppUser currentUser;
+  final String title;
 
-  final LocationScreen widget;
+  const CustomAppBar({
+    super.key,
+    required this.currentUser,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 135..h,
+      height: 135.h,
       decoration: BoxDecoration(color: AppColors.primarycolor),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
@@ -36,7 +41,7 @@ class customAppBar extends StatelessWidget {
                             backgroundColor: Colors.white,
                           ),
                           Text(
-                            'Hello ${widget.user.firstName}!',
+                            'Hello ${currentUser.firstName}!',
                             style: barIconStyle(),
                           ),
                         ],
@@ -46,8 +51,7 @@ class customAppBar extends StatelessWidget {
                 ),
               ),
             ),
-
-            Text("Our Branches & Shop", style: barTextStyle()),
+            Text(title, style: barTextStyle()), // 👈 ده اللي هيتغير
           ],
         ),
       ),
