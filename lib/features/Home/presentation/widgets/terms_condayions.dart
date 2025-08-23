@@ -27,7 +27,7 @@ class TermsCondayions extends StatelessWidget {
             fontFamily: Fontsfamily.fonttextfamily,
             color: AppColors.primarycolor,
             fontWeight: FontWeight.w300,
-            fontSize: 10.sp,
+            fontSize: 9.sp,
           ),
         ),
         Text(
@@ -36,7 +36,7 @@ class TermsCondayions extends StatelessWidget {
             fontFamily: Fontsfamily.fonttextfamily,
             color: AppColors.primarycolor,
             fontWeight: FontWeight.w300,
-            fontSize: 10.sp,
+            fontSize: 9.sp,
           ),
         ),
         Text(
@@ -45,7 +45,7 @@ class TermsCondayions extends StatelessWidget {
             fontFamily: Fontsfamily.fonttextfamily,
             color: AppColors.primarycolor,
             fontWeight: FontWeight.w300,
-            fontSize: 10.sp,
+            fontSize: 9.sp,
           ),
         ),
         Text(
@@ -54,7 +54,7 @@ class TermsCondayions extends StatelessWidget {
             fontFamily: Fontsfamily.fonttextfamily,
             color: AppColors.primarycolor,
             fontWeight: FontWeight.w300,
-            fontSize: 10.sp,
+            fontSize: 9.sp,
           ),
         ),
       ],

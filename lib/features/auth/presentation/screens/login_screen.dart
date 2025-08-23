@@ -3,7 +3,6 @@ import 'package:flexana/core/theme/Textstyle.dart';
 import 'package:flexana/core/utils/assets_data.dart';
 import 'package:flexana/core/widgets/custom_button.dart';
 import 'package:flexana/core/widgets/custom_slide_inemation.dart';
-import 'package:flexana/features/Home/presentation/screens/location_screen.dart';
 import 'package:flexana/features/Home/presentation/widgets/button_nav_bar.dart';
 import 'package:flexana/features/auth/auth_service.dart';
 import 'package:flexana/features/auth/presentation/screens/forget_pass_screen.dart';

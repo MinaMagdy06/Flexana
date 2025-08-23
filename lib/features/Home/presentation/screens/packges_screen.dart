@@ -32,13 +32,13 @@ class _PackagesScreenState extends State<PackagesScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
             children: [
-              SizedBox(height: 10.h),
+              SizedBox(height: 15.h),
               AssetsData.yogaPackages(context),
               Text('Yoga and Mat Pilates Packages', style: packagesTextStyle()),
               SizedBox(height: 10.h),
               AssetsData.ReformPackages(context),
               Text('Reform Pilates Packages', style: packagesTextStyle()),
-              SizedBox(height: 45.h),
+              SizedBox(height: 50.h),
               TermsCondayions(),
             ],
           ),
