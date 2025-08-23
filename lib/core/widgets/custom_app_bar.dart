@@ -18,7 +18,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 135.h,
+      height: 130.h,
       decoration: BoxDecoration(color: AppColors.primarycolor),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircleAvatar(
-                            maxRadius: 23,
+                            maxRadius: 23.r,
                             backgroundColor: Colors.white,
                           ),
                           Text(
@@ -51,7 +51,7 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ),
             ),
-            Text(title, style: barTextStyle()), // 👈 ده اللي هيتغير
+            Text(title, style: barTextStyle()),
           ],
         ),
       ),

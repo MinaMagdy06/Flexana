@@ -43,3 +43,33 @@ TextStyle barTextStyle({double? fontSize, Color color = Colors.white}) {
     color: color,
   );
 }
+
+TextStyle barBookingStyle({double? fontSize, Color color = Colors.white}) {
+  return TextStyle(
+    fontFamily: Fontsfamily.fonttextfamily,
+    fontSize: (fontSize ?? 15.sp),
+    fontWeight: FontWeight.bold,
+    color: color,
+  );
+}
+
+TextStyle barBookingTextStyle({double? fontSize, Color color = Colors.white}) {
+  return TextStyle(
+    fontFamily: Fontsfamily.fonttextfamily,
+    fontSize: (fontSize ?? 9.sp),
+    fontWeight: FontWeight.bold,
+    color: AppColors.primarycolor,
+  );
+}
+
+TextStyle classBookingTextStyle({
+  double? fontSize,
+  Color color = Colors.black,
+}) {
+  return TextStyle(
+    fontFamily: Fontsfamily.fonttextfamily,
+    fontSize: (fontSize ?? 14.sp),
+    fontWeight: FontWeight.w800,
+    color: color,
+  );
+}

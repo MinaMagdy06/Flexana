@@ -19,7 +19,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
         preferredSize: Size.fromHeight(135),
         child: CustomAppBar(
           currentUser: widget.currentUser,
-          title: "My Packages",
+          title: "Our Packages",
         ),
       ),
       body: Center(
