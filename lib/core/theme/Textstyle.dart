@@ -73,3 +73,12 @@ TextStyle classBookingTextStyle({
     color: color,
   );
 }
+
+TextStyle packagesTextStyle({double? fontSize, Color color = Colors.black}) {
+  return TextStyle(
+    fontFamily: Fontsfamily.fonttextfamily,
+    fontSize: (fontSize ?? 19.sp),
+    fontWeight: FontWeight.w500,
+    color: AppColors.primarycolor,
+  );
+}

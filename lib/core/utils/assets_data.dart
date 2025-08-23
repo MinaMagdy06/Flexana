@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class AssetsData {
   static Image logo(BuildContext context) {
@@ -42,6 +45,28 @@ class AssetsData {
       'assets/images/customButton2.png',
       width: screenWidth * 0.50,
       height: screenHeight * 0.060,
+    );
+  }
+
+  static Widget yogaPackages(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return SvgPicture.asset(
+      'assets/Icons/Isolation Mode.svg',
+      width: screenWidth * 0.45,
+      height: screenHeight * 0.25,
+    );
+  }
+
+  static Widget ReformPackages(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return SvgPicture.asset(
+      'assets/Icons/Frame.svg',
+      width: screenWidth * 0.45,
+      height: screenHeight * 0.25,
     );
   }
 }
